@@ -1,6 +1,6 @@
 export default {
-	async fetch(request) {
-		return await new Response('https://api.mailchannels.net/tx/v1/send', {
+	async fetch(request, env, ctx) {
+		return await fetch('https://api.mailchannels.net/tx/v1/send', {
 			method: 'POST',
 			headers: {
 				'content-type': 'application/json',
@@ -8,11 +8,11 @@ export default {
 			body: JSON.stringify({
 				personalizations: [
 					{
-						to: [{ email: 'test@example.com', name: 'Test Recipient' }],
+						to: [{ email: `${env.RECEIVER_EMAIL}`, name: 'Test Recipient' }],
 					},
 				],
 				from: {
-					email: 'sender@example.com',
+					email: `${env.SENDER_EMAIL}`,
 					name: 'Workers - MailChannels integration',
 				},
 				subject: 'Look! No servers',
